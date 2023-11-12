@@ -109,11 +109,11 @@ def multiperceptron_widrow(x, yd, epoch, batch_size):
 
         error.append(err)
 
-        t = [-5, 5]
-        c = [0.8, 0.2, 0, e/epoch]
-        display_plot(w1[0], t, c)
-        c = [0, 0.8, 0.2, e/epoch]
-        display_plot(w1[1], t, c)
+        # t = [-5, 5]
+        # c = [0.8, 0.2, 0, e/epoch]
+        # display_plot(w1[0], t, c)
+        # c = [0, 0.8, 0.2, e/epoch]
+        # display_plot(w1[1], t, c)
 
         if(round(err, 3) == 0.000):
             return w1, w2, error
