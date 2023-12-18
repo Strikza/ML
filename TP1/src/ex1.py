@@ -1,13 +1,12 @@
-#  Programmation d’une m´ethode de discrimination : Kppv
-import numpy as np
+import numpy    as np
 import scipy.io as scio
+
 from warnings import simplefilter
 
 # ignore all future warnings
 simplefilter(action='ignore', category=FutureWarning)
 simplefilter(action='ignore', category=UserWarning)
 
-# [clas] = kppv(apprent,classe origine,k,x)
 
 #=======================================================================
 def kppv(apprent, classe_origine, x, k):
@@ -92,8 +91,10 @@ def win_rate(result, expected):
     return count/n
 
 
-# Test des données
-Data = scio.loadmat(".\Data\p1_test.mat") # Chargé depuis la racine du projet
+####################
+# Test des données #
+####################
+Data = scio.loadmat("./Data/p1_test.mat") # Chargé depuis la racine du projet
 class_test = [1]*50 + [2]*50 + [3]*50
 
 

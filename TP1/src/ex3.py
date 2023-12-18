@@ -91,31 +91,31 @@ def aux_kppv(datas, n_neighbors):
 
 # Lecture des données
 print("Start to read files...")
-PHOG = np.array(pd.read_excel(".\Data\WangSignatures.xlsx", 
+PHOG = np.array(pd.read_excel("./Data/WangSignatures.xlsx", 
                               sheet_name="WangSignaturesPHOG", 
                               header=None,
                               converters={0:parse_name}
                             ).sort_values(by=0).drop(0, axis=1))
 print("Read: 1/5")
-JCD = np.array(pd.read_excel(".\Data\WangSignatures.xlsx", 
+JCD = np.array(pd.read_excel("./Data/WangSignatures.xlsx", 
                               sheet_name="WangSignaturesJCD", 
                               header=None,
                               converters={0:parse_name}
                             ).sort_values(by=0).drop(0, axis=1))
 print("Read: 2/5")
-CEDD = np.array(pd.read_excel(".\Data\WangSignatures.xlsx", 
+CEDD = np.array(pd.read_excel("./Data/WangSignatures.xlsx", 
                               sheet_name="WangSignaturesCEDD", 
                               header=None,
                               converters={0:parse_name}
                             ).sort_values(by=0).drop(0, axis=1))
 print("Read: 3/5")
-FCTH = np.array(pd.read_excel(".\Data\WangSignatures.xlsx", 
+FCTH = np.array(pd.read_excel("./Data/WangSignatures.xlsx", 
                               sheet_name="WangSignaturesFCTH", 
                               header=None,
                               converters={0:parse_name}
                             ).sort_values(by=0).drop(0, axis=1))
 print("Read: 4/5")
-FCH = np.array(pd.read_excel(".\Data\WangSignatures.xlsx", 
+FCH = np.array(pd.read_excel("./Data/WangSignatures.xlsx", 
                               sheet_name="WangSignaturesFuzzyColorHistogr", 
                               header=None,
                               converters={0:parse_name}
@@ -137,16 +137,13 @@ bayes_fct(FCTH, label, ratio_extracted)
 print("[ FCH ]")
 bayes_fct(FCH,  label, ratio_extracted)
 
-print("\n================================== [ PHOG ] ==================================")
+print("\n========================== [ PHOG ] ==========================")
 kppv_fct(PHOG,label, ratio_extracted)
-print("\n================================== [ JCD ] ==================================")
+print("\n========================== [ JCD ] ===========================")
 kppv_fct(JCD, label, ratio_extracted)
-print("\n================================== [ CEDD ] ==================================")
+print("\n========================== [ CEDD ] ==========================")
 kppv_fct(CEDD,label, ratio_extracted)
-print("\n================================== [ FCTH ] ==================================")
+print("\n========================== [ FCTH ] ==========================")
 kppv_fct(FCTH,label, ratio_extracted)
-print("\n================================== [ FCH ] ==================================")
+print("\n========================== [ FCH ] ===========================")
 kppv_fct(FCH, label, ratio_extracted)
-
-
-# Positionner l'entreprise dans le monde économique (nb salarié, CA, organigramme du projet)

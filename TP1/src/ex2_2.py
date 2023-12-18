@@ -74,9 +74,9 @@ def kppv_fct(data, n_neighbors):
 
 # Lecture des données
 print("Start to read files...")
-p1_learning = pd.read_excel(".\Data\p1_grand.xlsx", sheet_name="Ensemble Apprentissage")
+p1_learning = pd.read_excel("./Data/p1_grand.xlsx", sheet_name="Ensemble Apprentissage")
 print("Readed: 1/2")
-p1_unknown  = pd.read_excel(".\Data\p1_grand.xlsx", sheet_name="Inconnu"               )
+p1_unknown  = pd.read_excel("./Data/p1_grand.xlsx", sheet_name="Inconnu"               )
 print("Readed: 2/2")
 print("Read done.")
 

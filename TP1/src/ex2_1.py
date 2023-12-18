@@ -74,9 +74,9 @@ def kppv_fct(data, n_neighbors):
 
 # Lecture des données
 print("Start to read files...")
-p1_learning = pd.read_excel(".\Data\p1_petit.xlsx", sheet_name="Ensemble Apprentissage")
+p1_learning = pd.read_excel("./Data/p1_petit.xlsx", sheet_name="Ensemble Apprentissage")
 print("Readed: 1/2")
-p1_unknown  = pd.read_excel(".\Data\p1_petit.xlsx", sheet_name="Inconnu"               )
+p1_unknown  = pd.read_excel("./Data/p1_petit.xlsx", sheet_name="Inconnu"               )
 print("Readed: 2/2")
 print("Read done.")
 
@@ -99,13 +99,11 @@ data_set = [X_train, X_test, y_train, y_test]
 #######################################
 # Discrimination paramétrique (Bayes) #
 #######################################
-
 bayes_fct(data_set)
 
 
 ########
 # Kppv #
 ########
-
 for i in [1, 3, 5, 7, 13, 15]:
         kppv_fct(data_set, i)
