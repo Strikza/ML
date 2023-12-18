@@ -1,30 +1,16 @@
 import numpy  as np
 import random as rd
 
-# === Hyperparamètre === #
-alpha   = 0.81
-gamma   = 0.96
-epsilon = 1
-total_round = 1000
+
+# ============================ #
+#        Hyperparamètre        #
+# ============================ #
+alpha    = 0.81
+gamma    = 0.96
+epsilon  = 1
+epoch    = 1000
 max_step = 100
 
-
-# === Initialisation === #
-reward = np.array([
-    [0,  0,  0,  0],
-    [-1, 0, -1,  0],
-    [0,  0,  0, -1],
-    [0, -1,  0,  1]
-])
-
-reward2 = np.array([
-    [0,   5,  -9,  -9],
-    [-10, 5,  -10, -9],
-    [-9,  5,   5,  -10],
-    [-9, -10,  5,   10]
-])
-
-GRID = []
 
 
 # ========================================
@@ -41,6 +27,7 @@ def move(action, position):
         print("DUDE ? WTF DUDE ?!")
     
     return position 
+
 
 # ========================================
 def clamped_pos(position, limit):
@@ -61,6 +48,8 @@ def application_action(action, position, space):
     mi = space.min()
     ma = space.max()
 
+    # La valeur minimal => DRAGON
+    # La valeur maximal => ARRIVÉE
     if(r == mi or r == ma):
         pos_move = [0, 0]
         if(r == ma):
@@ -95,7 +84,6 @@ def onestep(state, epsilon, mat_q):
     a = choose_action(state, epsilon, mat_q)
     pos, r, end = application_action(a, [state%4, int(state/4)], GRID)
 
-
     q      = mat_q[state, a]
     state2 = pos[0] + pos[1]*4
     max_q2 = mat_q[state2].max()
@@ -111,9 +99,9 @@ def start_learn():
     epsilon = 1
     mat_q = init_q_table(16, 4)
 
-    for i in range(total_round):
+    for i in range(epoch):
 
-        epsilon = total_round/(total_round + i)
+        epsilon = epoch/(epoch + i)
         for j in range(max_step):
             mat_q, state, end = onestep(state, epsilon, mat_q)
             if(end): break
@@ -126,6 +114,28 @@ def start_learn():
     return learned_path
 
 
+
+# ======================================== #
+#        Initialisation des données        #
+# ======================================== #
+reward = np.array([
+    [0,  0,  0,  0],
+    [-1, 0, -1,  0],
+    [0,  0,  0, -1],
+    [0, -1,  0,  1]
+])
+
+reward2 = np.array([
+    [0,   5,  -9,  -9],
+    [-10, 5,  -10, -9],
+    [-9,  5,   5,  -10],
+    [-9, -10,  5,   10]
+])
+
+
+# ======================================== #
+#      Apprentissage et Comparaison        #
+# ======================================== #
 GRID = reward
 l1 = start_learn()
 
@@ -134,75 +144,3 @@ l2 = start_learn()
 
 print(l1)
 print(l2)
-
-
-def display_path(grid):
-    s = ""
-    mi = grid.min()
-    ma = grid.max()
-
-    for i in range(len(grid)*2 + 1):
-        for j in range(len(grid[0])*2 + 1):
-            if (i == 0):
-                if(j == 0):
-                    s += '╔'
-                elif(j == len(grid[0])*2):
-                    s += '╗'
-                elif(j%2 == 1):
-                    s += '═══'
-                else:
-                    s += '╤'
-            elif(i == len(grid)*2):
-                if(j == 0):
-                    s += '╚'
-                elif(j == len(grid[0])*2):
-                    s += '╝'
-                elif(j%2 == 1):
-                    s += '═══'
-                else:
-                    s += '╧'
-            elif(i%2 == 1):
-                if(j == 0 or j == len(grid[0])*2):
-                    s += '║'
-                elif(j%2 == 1):
-                    val = grid[int((i-1)/2), int((j-1)/2)]
-                    if(val == mi):
-                        s += ' D '
-                    elif(val == ma):
-                        s += ' E '
-                    else:
-                        s += '   '
-                else:
-                    s += ' '
-            else:
-                if(j == 0):
-                    s += '╠'
-                elif(j == len(grid[0])*2):
-                    s += '╣'
-                elif(j%2 == 1):
-                    s += '   '
-                else:
-                    s += '╪'
-        s += '\n'
-
-    print(s)
-
-display_path(GRID)
-
-# ╔
-# ═
-# ╤
-# ╗
-# ║
-# ╚
-# ╧
-# ╝
-# ╪
-# ╣
-# ╠
-
-# ╔═══╤═══╤═══╤═══╤═══╤═══╗
-# ║HP |ATK│DEF│SPA│SPD│SPE║
-# ╠═══╪═══╪═══╪═══╪═══╪═══╣
-# ║ 0 │21 │ 5 │ 0 │20 │12 ║
-# ╚═══╧═══╧═══╧═══╧═══╧═══╝
