@@ -1,14 +1,12 @@
-
-import numpy             as np
-import pandas            as pd
+import cv2 as cv
+import numpy as np
 import matplotlib.pyplot as plt
-import cv2               as cv
 
-from sklearn.metrics         import confusion_matrix, accuracy_score
-from tensorflow              import keras
+from sklearn.metrics import confusion_matrix, accuracy_score
+from tensorflow import keras
 from sklearn.model_selection import train_test_split
 
-
+CONFUSION = False
 
 # ========================================
 def parse_name(name):
@@ -16,14 +14,14 @@ def parse_name(name):
 
 
 # ========================================
-def result_analysis(y_test, y_pred, label="", confusion=False):
+def result_analysis(y_test, y_pred, label=""):
   y_pred = np.argmax(y_pred, axis=1)
   y_test = np.argmax(y_test, axis=1)
 
   rate = accuracy_score(y_test, y_pred)
   print(label + str(rate * 100) + "%")
 
-  if(confusion):
+  if(CONFUSION):
     matrix = confusion_matrix(y_test, y_pred)
     print(matrix)
     print()
@@ -47,7 +45,7 @@ def learning_fct(data, label, size, r_state=42, title=''):
   Y_pred = model.predict(X_test)
   score  = model.evaluate(X_test, Y_test, verbose=1)
 
-  result_analysis(Y_test, Y_pred, title + ': ', True)
+  result_analysis(Y_test, Y_pred, title + ': ')
 
   return score, history
 
@@ -72,6 +70,30 @@ for i in range(1000):
 X = np.array(X)
 print("Load done.")
 
-
 ratio_extracted = 0.1
-learning_fct(X, label, ratio_extracted, title='DEEP')
+
+
+# ======================================== #
+#              Apprentissage               #
+# ======================================== #
+d, history_d = learning_fct(X, label, ratio_extracted, title='DEEP')
+
+
+# ======================================== #
+#          Affichage des courbes           #
+# ======================================== #
+plt.subplot(211)
+plt.plot(history_d.history['accuracy'],     "b--", label="Accuracy of training data")
+plt.plot(history_d.history['val_accuracy'], "b",   label="Accuracy of validation data")
+plt.legend()
+plt.title('Model Accuracy')
+plt.ylabel('Accuracy')
+
+plt.subplot(212)
+plt.plot(history_d.history['loss'],     "y--", label="Loss of training data")
+plt.plot(history_d.history['val_loss'], "y",   label="Loss of validation data")
+plt.legend()
+plt.ylabel('Accuracy')
+plt.xlabel('Training Epoch')
+
+plt.show()

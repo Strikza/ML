@@ -65,7 +65,7 @@ def apprentissage_widrow(x, yd, epoch, batch_size):
 
             if(i%batch_size == 0 or 
                i == len(x[0])-1
-               ):
+            ):
                 w  = [w[0] - w1, w[1] - w2, w[2] - w3]
                 w1 = 0
                 w2 = 0

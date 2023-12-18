@@ -1,8 +1,5 @@
-import numpy as np
 import math
-import random as rd
 import matplotlib.pyplot as plt
-from sklearn.metrics import accuracy_score
 
 
 # ========================================

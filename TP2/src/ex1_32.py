@@ -64,7 +64,7 @@ def multiperceptron_widrow(x, yd, epoch, batch_size):
         for i in range(len(x[0])):
             x1 = x[0][i]
             x2 = x[1][i]
-            y, y1, y2  = multiperceptron([x1, x2], w1, w2)
+            y, y1, y2 = multiperceptron([x1, x2], w1, w2)
 
             L   = -(yd[i] - y)*(y - y*y)
             L1  = w2[1]*L*(y1 - y1*y1)

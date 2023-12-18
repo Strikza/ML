@@ -48,4 +48,3 @@ for i in range(len(or_value[0])):
 
 plt.axis([-0.5, 1.5, -0.5, 1.5])
 plt.show()
-
