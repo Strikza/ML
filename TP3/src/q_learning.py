@@ -14,7 +14,7 @@ def move(action, position, limit):
     elif (action == 3):
         return [max(position[0] - 1, 0), position[1]]
     else:
-        print("WTF DUDE ?!")
+        print("Oh hello fellow Hacker !")
 
 
 
@@ -22,7 +22,7 @@ def move(action, position, limit):
 def application_action(action, position):
 
     pos_move = move(action, position, GRID_SIZE-1)
-    r   = -10 if position == pos_move else GRID[pos_move[1], pos_move[0]]
+    r   = -2 if position == pos_move else GRID[pos_move[1], pos_move[0]]
     end = False
 
     mi = GRID.min()
@@ -83,6 +83,7 @@ def start_learn():
     for e in range(epoch):
 
         epsilon = epoch/(epoch + e)
+        pos     = [0, 0]
 
         for j in range(max_step):
             mat_q, pos, end = onestep(pos, epsilon, mat_q)
@@ -102,7 +103,6 @@ def start_learn():
 # ============================ #
 alpha    = 0.81
 gamma    = 0.96
-epsilon  = 1
 epoch    = 1000
 max_step = 100
 

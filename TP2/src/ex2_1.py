@@ -6,7 +6,7 @@ from sklearn.metrics import confusion_matrix, accuracy_score
 from tensorflow import keras
 from sklearn.model_selection import train_test_split
 
-CONFUSION = False
+CONFUSION = True
 
 # ========================================
 def parse_name(name):

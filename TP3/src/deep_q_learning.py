@@ -28,7 +28,7 @@ def move(action, position, limit):
     elif (action == 3):
         return [max(position[0] - 1, 0), position[1]]
     else:
-        print("WTF DUDE ?!")
+        print("Oh hello fellow Hacker !")
 
 
 
@@ -109,15 +109,15 @@ def start_learn():
 
         epsilon = epoch/(epoch + e)
         pos     = [0, 0]
-
-        if(e % 10 == 0):
-            target.set_weights(model.get_weights())
         
         for j in range(max_step):
             pos, end = onestep(pos, epsilon, e)
 
+            if(j % 10 == 0):
+                target.set_weights(model.get_weights())
+
             if(end): 
-                print(f"FINITO [in {j} steps]")
+                print(f"FINITO [in {j+1} steps]")
                 break
 
     learned_path = np.zeros(GRID_LEN)
@@ -138,8 +138,8 @@ def start_learn():
 gamma     = 0.999
 epoch     = 1000
 max_step  = 100
-# optimizer = tf.keras.optimizers.SGD(learning_rate=1e-3)
-optimizer = tf.keras.optimizers.Nadam(learning_rate=1e-3)
+optimizer = tf.keras.optimizers.SGD(learning_rate=1e-3)
+# optimizer = tf.keras.optimizers.Nadam(learning_rate=1e-3)
 suivi     = np.zeros(epoch)
 loss_fn   = tf.keras.losses.mean_squared_error
 
@@ -153,6 +153,13 @@ reward = np.array([
     [-20,   0, -20,    -1],
     [ -1,   0,   0,   -20],
     [ -1, -20,   0,   100]
+])
+
+reward2 = np.array([
+    [ 0,  0,  0,  0],
+    [-1,  0, -1,  0],
+    [ 0,  0,  0, -1],
+    [ 0, -1,  0,  1]
 ])
 
 GRID      = reward
@@ -198,7 +205,7 @@ print("FINISHED")
 # ======================================== #
 #          Affichage des courbes           #
 # ======================================== #
-plt.title("Line graph") 
+plt.title("Line graph - Optimizer SGD") 
 plt.xlabel("X axis") 
 plt.ylabel("Y axis") 
 plt.plot(suivi, color ="red") 
