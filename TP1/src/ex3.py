@@ -37,13 +37,13 @@ def bayes_fct(data, label, size, r_state=42):
 
     X_train, X_test, y_train, y_test = train_test_split(data, label, test_size=size, random_state=r_state, stratify=label)
 
-    bayek = QuadraticDiscriminantAnalysis()
+    bayes = QuadraticDiscriminantAnalysis()
 
     # Train the model using the training sets
-    bayek.fit(X_train, y_train)
+    bayes.fit(X_train, y_train)
 
     # Predict Output: 
-    y_pred = bayek.predict(X_test)
+    y_pred = bayes.predict(X_test)
 
     # Result analysis:
     result_analysis(

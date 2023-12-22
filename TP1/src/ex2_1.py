@@ -31,13 +31,13 @@ def bayes_fct(data):
     # data[2]: y_train
     # data[3]: y_test
 
-    bayek = QuadraticDiscriminantAnalysis()
+    bayes = QuadraticDiscriminantAnalysis()
 
     # Train the model using the training sets
-    bayek.fit(data[0], data[2])
+    bayes.fit(data[0], data[2])
 
     # Predict Output: 
-    y_pred = bayek.predict(data[1])
+    y_pred = bayes.predict(data[1])
 
     # Result analysis:
     result_analysis(

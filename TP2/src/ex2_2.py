@@ -67,6 +67,8 @@ for i in range(1000):
   norm = img[0:256, 0:256, :]
   X.append(norm)
 
+print(label.shape)
+
 X = np.array(X)
 print("Load done.")
 

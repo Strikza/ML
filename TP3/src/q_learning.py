@@ -2,51 +2,31 @@ import numpy  as np
 import random as rd
 
 
-# ============================ #
-#        Hyperparamètre        #
-# ============================ #
-alpha    = 0.81
-gamma    = 0.96
-epsilon  = 1
-epoch    = 1000
-max_step = 100
-
-
-
 # ========================================
-def move(action, position):
-    if(action == 0):
-        position[1] -= 1
-    elif(action == 1):
-        position[0] += 1
-    elif(action == 2):
-        position[1] += 1
-    elif(action == 3):
-        position[0] -= 1
+def move(action, position, limit):
+
+    if (action == 0):
+        return [position[0], max(position[1] - 1, 0)]
+    elif (action == 1):
+        return [min(position[0] + 1, limit), position[1]]
+    elif (action == 2):
+        return [position[0], min(position[1] + 1, limit)]
+    elif (action == 3):
+        return [max(position[0] - 1, 0), position[1]]
     else:
-        print("DUDE ? WTF DUDE ?!")
-    
-    return position 
+        print("WTF DUDE ?!")
 
-
-# ========================================
-def clamped_pos(position, limit):
-    position[0] = max(0, position[0])
-    position[0] = min(position[0], limit)
-    position[1] = max(0, position[1])
-    position[1] = min(position[1], limit)
-
-    return position
 
 
 # ========================================
-def application_action(action, position, space):
-    pos_move = clamped_pos(move(action, position), 3)
-    r = space[pos_move[1], pos_move[0]]
+def application_action(action, position):
+
+    pos_move = move(action, position, GRID_SIZE-1)
+    r   = -10 if position == pos_move else GRID[pos_move[1], pos_move[0]]
     end = False
 
-    mi = space.min()
-    ma = space.max()
+    mi = GRID.min()
+    ma = GRID.max()
 
     # La valeur minimal => DRAGON
     # La valeur maximal => ARRIVÉE
@@ -80,38 +60,51 @@ def choose_action(state, epsilon, mat_q):
 
 
 # ========================================
-def onestep(state, epsilon, mat_q):
+def onestep(pos, epsilon, mat_q):
+    state = pos[0] + pos[1]*GRID_SIZE
+
     a = choose_action(state, epsilon, mat_q)
-    pos, r, end = application_action(a, [state%4, int(state/4)], GRID)
+    next_pos, r, end = application_action(a, pos)
 
     q      = mat_q[state, a]
-    state2 = pos[0] + pos[1]*4
+    state2 = next_pos[0] + next_pos[1]*4
     max_q2 = mat_q[state2].max()
 
     mat_q[state, a] = q + alpha*(r + gamma*max_q2 - q)
 
-    return mat_q, state2, end
+    return mat_q, next_pos, end
 
 
 # ========================================
 def start_learn():
-    state = 0
-    epsilon = 1
-    mat_q = init_q_table(16, 4)
+    pos   = [0, 0]
+    mat_q = init_q_table(GRID_LEN, 4)
 
-    for i in range(epoch):
+    for e in range(epoch):
 
-        epsilon = epoch/(epoch + i)
+        epsilon = epoch/(epoch + e)
+
         for j in range(max_step):
-            mat_q, state, end = onestep(state, epsilon, mat_q)
+            mat_q, pos, end = onestep(pos, epsilon, mat_q)
             if(end): break
 
-    learned_path = np.zeros(len(mat_q))
+    learned_path = np.zeros(GRID_LEN)
 
-    for i in range(len(learned_path)):
+    for i in range(GRID_LEN):
         learned_path[i] = mat_q[i].argmax()
 
     return learned_path
+
+
+
+# ============================ #
+#        Hyperparamètre        #
+# ============================ #
+alpha    = 0.81
+gamma    = 0.96
+epsilon  = 1
+epoch    = 1000
+max_step = 100
 
 
 
@@ -133,14 +126,19 @@ reward2 = np.array([
 ])
 
 
+
 # ======================================== #
 #      Apprentissage et Comparaison        #
 # ======================================== #
-GRID = reward
+GRID      = reward
+GRID_SIZE = 4
+GRID_LEN  = 16
 l1 = start_learn()
 
-GRID = reward2
+GRID      = reward2
+GRID_SIZE = 4
+GRID_LEN  = 16
 l2 = start_learn()
 
-print(l1)
-print(l2)
+print(f"Learned path => {l1}")
+print(f"Learned path => {l2}")
